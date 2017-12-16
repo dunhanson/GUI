@@ -5,7 +5,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -20,20 +23,28 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 public class ExcelUtils {
 	
 	/**
+	 * 获取Workbook
+	 * @return
+	 */
+	public static Workbook getWorkbook() {
+		Workbook workbook = new HSSFWorkbook();
+		workbook.createSheet();
+		return workbook;
+	}
+	
+	/**
 	 * 往Workbook中写入记录
-	 * @param inputStream 输入流
 	 * @param outputStream 输出流
 	 * @param rowValues 写入记录
-	 * @param sheetNum Sheet索引
 	 * @param rowNum 读取的开始行号
 	 * @param cellNum 读取的开始列号
 	 */
-	public static void write(InputStream in, OutputStream out, List<String[]> rowValues, int sheetNum, int rowNum, int cellNum){
+	public static void write(OutputStream out, List<String[]> rowValues, int rowNum, int cellNum){
 		Workbook workbook = null;
 		try {
-			workbook = WorkbookFactory.create(in);
+			workbook = getWorkbook();
 			//通过索引获取Sheet对象
-			Sheet sheet = workbook.getSheetAt(sheetNum);
+			Sheet sheet = workbook.getSheetAt(0);
 			//往Sheet表中写入数据
 			write(sheet, rowValues, rowNum, cellNum);
 			//写入到输出流当中
@@ -41,6 +52,7 @@ public class ExcelUtils {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} finally {
+			IOUtils.closeQuietly(out);
 			close(workbook);
 		}
 	}
@@ -56,11 +68,11 @@ public class ExcelUtils {
 		//遍历行记录
 		for(int i = 0; i < rowValues.size(); i++){
 			//创建行
-			Row row = sheet.createRow(rowNum + i);
+			Row row = sheet.createRow(rowNum - 1 + i);
 			//获取列值数组
 			String[] cellValues = rowValues.get(i);
 			//遍历列记录
-			for(int j = cellNum; j < cellValues.length; j++){
+			for(int j = cellNum - 1; j < cellValues.length; j++){
 				//创建列
 				Cell cell = row.createCell(j);
 				//列赋值
