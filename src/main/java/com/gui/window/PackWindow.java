@@ -7,6 +7,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import com.gui.tools.PackUtils;
@@ -34,9 +36,6 @@ public class PackWindow {
 			public void run() {
 				try {
 					PackWindow window = new PackWindow();
-					UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");//windows风格
-					//Font font = new Font("微软雅黑",Font.PLAIN,15);
-			        //UIManager.put("Button.font", font); 
 					window.frmEclipsemyeclipseV.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -57,13 +56,19 @@ public class PackWindow {
 	 */
 	private void initialize() {
 		frmEclipsemyeclipseV = new JFrame();
-		frmEclipsemyeclipseV.setTitle("Eclipse&MyEclipse增量打包工具 V1.0.0");
+		frmEclipsemyeclipseV.setTitle("Eclipse&MyEclipse增量打包工具 V1.2.0");
 		frmEclipsemyeclipseV.setBounds(100, 100, 625, 165);
 		frmEclipsemyeclipseV.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmEclipsemyeclipseV.getContentPane().setLayout(null);
 		frmEclipsemyeclipseV.setLocationRelativeTo(null);
 		frmEclipsemyeclipseV.setResizable(false);
-		
+		try {
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}//windows风格		
 		JLabel lblNewLabel = new JLabel("项目路径");
 		lblNewLabel.setBounds(10, 10, 54, 15);
 		frmEclipsemyeclipseV.getContentPane().add(lblNewLabel);

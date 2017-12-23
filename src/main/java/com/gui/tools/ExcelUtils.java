@@ -97,10 +97,14 @@ public class ExcelUtils {
 			int rowCount = sheet.getPhysicalNumberOfRows();
 			for(int i = rowNum -1 ; i < rowCount; i++){//遍历行
 				Row row = sheet.getRow(i);
-				Cell cell = row.getCell(cellNum - 1);
-				String value = cell.getStringCellValue();
-				if(StringUtils.isNotBlank(value)) {
-					list.add(value);
+				if(row != null) {
+					Cell cell = row.getCell(cellNum - 1);
+					if(cell != null) {
+						String value = cell.getStringCellValue();
+						if(StringUtils.isNotBlank(value)) {
+							list.add(value);
+						}		
+					}
 				}
 			}
 		} catch (Exception e) {

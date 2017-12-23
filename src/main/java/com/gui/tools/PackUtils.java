@@ -17,12 +17,12 @@ import org.junit.Test;
  * @since 20017-11-29
  */
 public class PackUtils {
-	private static final String GENERAL_SRC = "/src/";
-	private static final String GENERAL_WEBROOT = "/WebRoot/";
-	private static final String GENERAL_WEBCONTENT = "/WebContent/";
-	private static final String MAVEN_JAVA = "/src/main/java/";
-	private static final String MAVEN_RESOURCES = "/src/main/resources/";
-	private static final String MAVEN_WEBAPP = "/src/main/webapp/";
+	private static final String GENERAL_SRC = "src/";
+	private static final String GENERAL_WEBROOT = "WebRoot/";
+	private static final String GENERAL_WEBCONTENT = "WebContent/";
+	private static final String MAVEN_JAVA = "src/main/java/";
+	private static final String MAVEN_RESOURCES = "src/main/resources/";
+	private static final String MAVEN_WEBAPP = "src/main/webapp/";
 	private static final String WEB_INFO_CLASSES = "/WEB-INF/classes/";
 	public static String projectPath; 		//项目路径
 	public static String exportPath; 		//输出路径
@@ -33,19 +33,12 @@ public class PackUtils {
 	
 	@Test
 	public void test() throws IOException {
-		projectPath = "D:\\Program Files\\tomcat\\apache-tomcat-7.0.79\\webapps\\bxkc-operation";
-		exportPath = "E:\\部署打包\\pack";
-		excelPath = "E:\\部署打包\\部署清单-General.xlsx";
+		projectPath = "D:\\Program Files\\Tomcat\\apache-tomcat-7.0.73\\webapps\\bxkc-operation";
+		exportPath = "E:\\DUNHANSON\\打包\\pack";
+		excelPath = "E:\\DUNHANSON\\打包\\部署清单-Git.xlsx";
 		pack();
 		System.out.println("SUCCESS.");
 	}
-	
-	//@Test
-	public void test2(){
-		String str = "/src/main/webapp/page/novice_welfare/jsp/order-detail.jsp";
-		System.out.println(str.startsWith(MAVEN_WEBAPP));
-	}
-	
 
 	/**
 	 * 增量打包
@@ -135,16 +128,6 @@ public class PackUtils {
 	 * @return
 	 */
 	public static String getPath(String path) {
-		if(path.indexOf("/") == -1){
-			//throw new RuntimeException("路径错误：" + path);
-			return "";
-		}
-		path = path.substring(path.indexOf("/") + 1);
-		if(path.indexOf("/") == -1){
-			//throw new RuntimeException("路径错误：" + path);
-			return "";
-		}		
-		path = path.substring(path.indexOf("/"));
 		if(path.startsWith(MAVEN_JAVA)) {
 			path = path.replace(MAVEN_JAVA, WEB_INFO_CLASSES);
 		}else if(path.startsWith(MAVEN_RESOURCES)) {
@@ -158,7 +141,6 @@ public class PackUtils {
 		}else if(path.startsWith(GENERAL_WEBCONTENT)) {
 			path = path.replace(GENERAL_WEBCONTENT, "/");
 		}else {
-			path = path.substring(path.indexOf("/") + 1);
 			path = path.substring(path.indexOf("/") + 1);
 			path = WEB_INFO_CLASSES + path;
 		}
